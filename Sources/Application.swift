@@ -66,7 +66,7 @@ extension Application: CustomStringConvertible {
     }
 }
 
-protocol ApplicationDelegate: class {
+public protocol ApplicationDelegate: class {
     var processIdentifier: pid_t! { get }
     var bundleIdentifier: String? { get }
 
@@ -96,7 +96,7 @@ final class OSXApplicationDelegate<
     weak var stateDelegate: StateDelegate?
     fileprivate weak var notifier: EventNotifier?
 
-    internal let axElement: UIElement // internal for testing only
+    public let axElement: UIElement // internal for testing only
     internal var observer: Observer! // internal for testing only
     fileprivate var windows: [WinDelegate] = []
 
@@ -529,7 +529,7 @@ extension OSXApplicationDelegate: WindowFinder {
     }
 }
 
-protocol OSXDelegateType {
+public protocol OSXDelegateType {
     associatedtype UIElement: UIElementType
     var axElement: UIElement { get }
     var isValid: Bool { get }

@@ -5,7 +5,7 @@ import PromiseKit
 
 /// A window.
 public final class Window {
-    internal let delegate: WindowDelegate
+    public let delegate: WindowDelegate
 
     // A Window holds a strong reference to the Application and therefore the ApplicationDelegate.
     // It should not be held internally by delegates, or it would create a reference cycle.
@@ -93,7 +93,7 @@ extension String {
     }
 }
 
-protocol WindowDelegate: class {
+public protocol WindowDelegate: class {
     var isValid: Bool { get }
 
     // Optional because a WindowDelegate shouldn't hold a strong reference to its parent
@@ -112,7 +112,7 @@ protocol WindowDelegate: class {
 // MARK: - OSXWindowDelegate
 
 /// Implements WindowDelegate using the AXUIElement API.
-final class OSXWindowDelegate<
+public final class OSXWindowDelegate<
     UIElement, ApplicationElement: ApplicationElementType, Observer: ObserverType
 >: WindowDelegate
     where Observer.UIElement == UIElement, ApplicationElement.UIElement == UIElement {
@@ -121,19 +121,19 @@ final class OSXWindowDelegate<
     fileprivate weak var notifier: EventNotifier?
     fileprivate var initialized: Promise<Void>!
 
-    let axElement: UIElement
+    public let axElement: UIElement
 
-    fileprivate(set) var isValid: Bool = true
+    public var isValid: Bool = true
 
     fileprivate var watchedAxProperties: [AXSwift.AXNotification: [PropertyType]]!
 
-    weak var appDelegate: ApplicationDelegate?
+    public weak var appDelegate: ApplicationDelegate?
 
-    var frame: WriteableProperty<OfType<CGRect>>!
-    var size: SizeProperty!
-    var title: Property<OfType<String>>!
-    var isMinimized: WriteableProperty<OfType<Bool>>!
-    var isFullscreen: WriteableProperty<OfType<Bool>>!
+    public var frame: WriteableProperty<OfType<CGRect>>!
+    public var size: SizeProperty!
+    public var title: Property<OfType<String>>!
+    public var isMinimized: WriteableProperty<OfType<Bool>>!
+    public var isFullscreen: WriteableProperty<OfType<Bool>>!
 
     private init(_ appDelegate: ApplicationDelegate,
                  _ notifier: EventNotifier?,
@@ -250,7 +250,7 @@ final class OSXWindowDelegate<
         }
     }
 
-    func equalTo(_ rhs: WindowDelegate) -> Bool {
+    public func equalTo(_ rhs: WindowDelegate) -> Bool {
         if let other = rhs as? OSXWindowDelegate {
             return axElement == other.axElement
         } else {
@@ -366,7 +366,7 @@ private final class FramePropertyDelegate<UIElement: UIElementType>: PropertyDel
 /// that `frame` and `size` are always consistent with each other.
 ///
 /// The purpose of this property is to support atomic writes to the `size` attribute of a window.
-final class SizeProperty: WriteableProperty<OfType<CGSize>> {
+public final class SizeProperty: WriteableProperty<OfType<CGSize>> {
     let frame: WriteableProperty<OfType<CGRect>>
 
     init<Impl: PropertyDelegate, Notifier: PropertyNotifier>(
