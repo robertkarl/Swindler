@@ -281,13 +281,6 @@ final class OSXStateDelegate<
                 throw error
             }
             .recover { error -> Promise<AppDelegate> in
-                // Log errors
-                let pid = try? appElement.pid()
-                let bundleID = pid.flatMap { NSRunningApplication(processIdentifier: $0) }
-                    .flatMap { $0.bundleIdentifier }
-                let pidString = (pid == nil) ? "??" : String(pid!)
-                log.notice("Could not watch application \(bundleID ?? "") (pid=\(pidString)): "
-                         + String(describing: error))
                 throw error
             }
     }
